@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import player from './ToneGenerator';
+import scribble from 'scribbletune';
 
 class App extends Component {
   constructor(props) {
@@ -10,10 +12,20 @@ class App extends Component {
 
   playOrPause() {
     if(this.state.isPlaying) {
-      window.MIDIjs.stop();
+      player.stop();
     } else {
-      window.MIDIjs.play('random-music.mid');
+      var chord = scribble.chord('CMaj7').concat(scribble.chord('Am7')).concat(scribble.chord('Edom7'));
+      var scale = scribble.scale('c', 'major', 3);
+      player.start(
+        {
+          notes: chord,
+          bpm: 120,
+          noteLength: '8n',
+          measures: 16
+        }
+      );
     }
+    
     this.setState({ isPlaying: !this.state.isPlaying });
   }
 
