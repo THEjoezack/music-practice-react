@@ -15,7 +15,9 @@ class App extends Component {
       player.stop();
     } else {
       var chordNames = [ 'CMaj7', 'Am7', 'Edom7'];
-      var chords = chordNames.map(x => { return scribble.chord(x) });
+      var chords = chordNames
+        .map(x => { return scribble.chord(x) })
+        .reduce((chords, c) => { return chords.concat(c); }, []);
       //var scale = scribble.scale('c', 'major', 3);
       player.start(
         {
