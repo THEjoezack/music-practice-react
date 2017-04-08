@@ -14,11 +14,12 @@ class App extends Component {
     if(this.state.isPlaying) {
       player.stop();
     } else {
-      var chord = scribble.chord('CMaj7').concat(scribble.chord('Am7')).concat(scribble.chord('Edom7'));
-      var scale = scribble.scale('c', 'major', 3);
+      var chordNames = [ 'CMaj7', 'Am7', 'Edom7'];
+      var chords = chordNames.map(x => { return scribble.chord(x) });
+      //var scale = scribble.scale('c', 'major', 3);
       player.start(
         {
-          notes: chord,
+          notes: chords,
           bpm: 120,
           noteLength: '8n',
           measures: 16
