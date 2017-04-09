@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import player from './ToneGenerator';
+import looper from './ToneLooper';
 import scribble from 'scribbletune';
 
 class App extends Component {
@@ -43,7 +43,7 @@ class App extends Component {
 
   playOrPause() {
     if(this.state.isPlaying) {
-      player.stop();
+      looper.stop();
     } else {
       var chordNames = [ 'CMaj7', 'Am7', 'Edom7'];
       var chords = chordNames
@@ -51,7 +51,7 @@ class App extends Component {
         .reduce((chords, c) => { return chords.concat(c); }, []);
       //var scale = scribble.scale('c', 'major', 3);
 
-      player.start(
+      looper.start(
         {
           notes: chords,
           bpm: this.state.bpm,

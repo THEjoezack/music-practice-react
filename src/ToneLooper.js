@@ -19,12 +19,11 @@ export default {
         for(var i = 0; i < options.notes.length; i++) {
             var note = options.notes[i].toUpperCase();
             var time = i === 0 ? '0' : (i + ' * ' + options.noteLength);
-            notes.push(
-                {
-                    time : time,
-                    note : note,
-                    dur: options.noteLength
-                });
+            notes.push({
+                time : time,
+                note : note,
+                dur: options.noteLength
+            });
         }
         
         var i = 0;
