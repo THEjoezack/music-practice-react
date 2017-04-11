@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import './index.css';
 import logo from './logo.svg';
 import './App.css';
 import looper from './ToneLooper';
 import scribble from 'scribbletune';
-
+import { Navbar, Jumbotron, Button } from 'react-bootstrap';
 class App extends Component {
 
   constructor(props) {
@@ -47,33 +48,20 @@ class App extends Component {
     );
   }
 
-  showSpinner() {
-    document.getElementById('spinner-image').style = 'animation: App-logo-spin infinite 1s linear';
-  }
-  
-  hideSpinner() {
-    document.getElementById('spinner-image').style = 'display: none;';
-  }
-
   playOrPause() {
     if(this.state.isPlaying) {
       looper.stop();
-      this.hideSpinner();
     } else {
       var chordNames = this.state.chords;
       var chords = chordNames
         .map(x => { return scribble.chord(x) })
         .reduce((chords, c) => { return chords.concat(c); }, []);
-
-      //var scale = scribble.scale('c', 'major', 3);
-      // TODO: in time w/ the music!
       
       looper.start(
         {
           notes: chords,
           bpm: this.state.bpm,
-          noteLength: this.state.noteLength,
-          onStart: this.showSpinner
+          noteLength: this.state.noteLength
         }
       );
     }
@@ -85,21 +73,19 @@ class App extends Component {
     // TODO Better UI for selecting chords
     // TODO Actually show arpeggio shapes
     return (
-      <div className="App">
-        <div className="App-header">
-          <h2>Music Practice App</h2>
-        </div>
-        <div>
+      <form>
+        <div className="form-group">
           <label htmlFor="chords">Chord List: (comma)</label>
-          <input id="chords" value={this.state.chords} onChange={this.updateChords.bind(this)} />
+          <input id="chords" className="form-control" value={this.state.chords} onChange={this.updateChords.bind(this)} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="bpm">BPM:</label>
-          <input type="number" id="bpm" value={this.state.bpm} onChange={this.updateBpm.bind(this)} min="0" max="300" />
+          <input type="number" className="form-control" id="bpm" value={this.state.bpm} onChange={this.updateBpm.bind(this)} min="0" max="300" />
         </div>
-        <div>
+        
+        <div className="form-group">
           <label htmlFor="noteLength">Note Length:</label>
-          <select value={this.state.noteLength} onChange={this.updateNoteLength.bind(this)}>
+          <select className="form-control" value={this.state.noteLength} onChange={this.updateNoteLength.bind(this)}>
             <option value="1n">Whole Note</option>
             <option value="2n">Half Note</option>
             <option value="4n">Quarter Note</option>
@@ -109,13 +95,9 @@ class App extends Component {
         </div>
 
         <div>
-          <button onClick={this.playOrPause.bind(this)}>{this.state.isPlaying ? 'Stop' : 'Play'}</button>
+          <button className="btn btn-primary" onClick={this.playOrPause.bind(this)}>{this.state.isPlaying ? 'Stop' : 'Play'}</button>
         </div>
-        <br/>
-        <div>
-          <img src={logo} className="App-logo" alt="logo" id="spinner-image" style={{display: 'none'}} />
-        </div>
-      </div>
+      </form>
     );
   }
 }

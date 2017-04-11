@@ -1,20 +1,9 @@
-.App {
-  text-align: center;
+body {
+  padding-top: 70px;
 }
 
 .App-logo {
   height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 60px;
-  padding: 20px;
-  color: white;
-}
-
-.App-intro {
-  font-size: large;
 }
 
 @keyframes App-logo-spin {
