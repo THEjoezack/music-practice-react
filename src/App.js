@@ -11,7 +11,8 @@ class App extends Component {
     this.state = {
       isPlaying: props.isPlaying,
       bpm: props.bpm,
-      noteLength: props.noteLength
+      noteLength: props.noteLength,
+      chords: props.chords
     };
   }
   
@@ -22,6 +23,11 @@ class App extends Component {
 
   updateNoteLength(event) {
     this.recalibrate({ noteLength: event.target.value });
+  }
+
+  updateChords(event) {
+    // validation etc
+    this.recalibrate({ chords: event.target.value.split(',') });
   }
 
   recalibrate(options) {
@@ -54,7 +60,7 @@ class App extends Component {
       looper.stop();
       this.hideSpinner();
     } else {
-      var chordNames = [ 'CMaj7', 'Am7', 'Edom7'];
+      var chordNames = this.state.chords;
       var chords = chordNames
         .map(x => { return scribble.chord(x) })
         .reduce((chords, c) => { return chords.concat(c); }, []);
@@ -76,10 +82,16 @@ class App extends Component {
   }
 
   render() {
+    // TODO Better UI for selecting chords
+    // TODO Actually show arpeggio shapes
     return (
       <div className="App">
         <div className="App-header">
           <h2>Music Practice App</h2>
+        </div>
+        <div>
+          <label htmlFor="chords">Chord List: (comma)</label>
+          <input id="chords" value={this.state.chords} onChange={this.updateChords.bind(this)} />
         </div>
         <div>
           <label htmlFor="bpm">BPM:</label>
@@ -113,7 +125,8 @@ App.defaultProps = {
   bpmMin: 1,
   bpmMax: 300,
   isPlaying: false,
-  noteLength: '8n'
+  noteLength: '8n',
+  chords: ['CMaj7', 'Am7', 'Edom7']
 };
 
 export default App;
