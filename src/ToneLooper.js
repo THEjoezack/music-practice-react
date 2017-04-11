@@ -13,6 +13,20 @@ const synth = new Tone.Synth({
     }
 }).toMaster();
 
+var createLoop = function(synth, notes, options) {
+    var ranOnce = false;
+    var i = 0;
+    return new Tone.Loop(function(time){
+        var note = notes[i % notes.length].note;
+        synth.triggerAttackRelease(note, options.noteLength);
+        if(!ranOnce && options.onStart) {
+            options.onStart();
+            ranOnce = true;
+        }
+        i++;
+    }, options.noteLength);
+}
+
 export default {
     start: function(options) {
         var notes = [];
@@ -26,19 +40,14 @@ export default {
             });
         }
         
-        var i = 0;
-        var loop = new Tone.Loop(function(time){
-            var note = notes[i % notes.length].note;
-            synth.triggerAttackRelease(note, options.noteLength);
-            i++;
-        }, options.noteLength);
-
+        var loop = createLoop(synth, notes, options);
         loop.start("1m"); // basically just play forever
 
         Tone.Transport.bpm.value = options.bpm;
         Tone.Transport.start();
+
     },
     stop: function() {
         Tone.Transport.stop();
     }
-}
+};

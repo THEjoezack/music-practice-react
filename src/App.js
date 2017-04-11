@@ -41,24 +41,33 @@ class App extends Component {
     );
   }
 
+  showSpinner() {
+    document.getElementById('spinner-image').style = 'animation: App-logo-spin infinite 1s linear';
+  }
+  
+  hideSpinner() {
+    document.getElementById('spinner-image').style = 'display: none;';
+  }
+
   playOrPause() {
     if(this.state.isPlaying) {
       looper.stop();
-      document.getElementById('spinner-image').style = 'display: none;';
+      this.hideSpinner();
     } else {
       var chordNames = [ 'CMaj7', 'Am7', 'Edom7'];
       var chords = chordNames
         .map(x => { return scribble.chord(x) })
         .reduce((chords, c) => { return chords.concat(c); }, []);
+
       //var scale = scribble.scale('c', 'major', 3);
-      const minSpeed = .5, maxSpeed = 30;
+      // TODO: in time w/ the music!
       
-      document.getElementById('spinner-image').style = 'animation: App-logo-spin infinite .5s linear';
       looper.start(
         {
           notes: chords,
           bpm: this.state.bpm,
-          noteLength: this.state.noteLength
+          noteLength: this.state.noteLength,
+          onStart: this.showSpinner
         }
       );
     }
