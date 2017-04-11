@@ -44,13 +44,16 @@ class App extends Component {
   playOrPause() {
     if(this.state.isPlaying) {
       looper.stop();
+      document.getElementById('spinner-image').style = 'display: none;';
     } else {
       var chordNames = [ 'CMaj7', 'Am7', 'Edom7'];
       var chords = chordNames
         .map(x => { return scribble.chord(x) })
         .reduce((chords, c) => { return chords.concat(c); }, []);
       //var scale = scribble.scale('c', 'major', 3);
-
+      const minSpeed = .5, maxSpeed = 30;
+      
+      document.getElementById('spinner-image').style = 'animation: App-logo-spin infinite .5s linear';
       looper.start(
         {
           notes: chords,
@@ -67,7 +70,6 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h2>Music Practice App</h2>
         </div>
         <div>
@@ -87,6 +89,10 @@ class App extends Component {
 
         <div>
           <button onClick={this.playOrPause.bind(this)}>{this.state.isPlaying ? 'Stop' : 'Play'}</button>
+        </div>
+        <br/>
+        <div>
+          <img src={logo} className="App-logo" alt="logo" id="spinner-image" style={{display: 'none'}} />
         </div>
       </div>
     );
